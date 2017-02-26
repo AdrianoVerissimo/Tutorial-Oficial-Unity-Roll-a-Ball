@@ -1,17 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
 	public float speed = 1;
+	public Text countText;
+	public Text winText;
 
 	private Rigidbody rb;
+	private int count;
 
 	//chamado no primeiro frame quando o script é ativado
 	void Start()
 	{
 		rb = GetComponent<Rigidbody>();
+		count = 0;
+		setCountText ();
+		winText.text = "";
 	}
 
 	//chamado antes de cada frame ser renderizado
@@ -35,7 +42,16 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (other.gameObject.CompareTag ("Pick Up")) {
 			other.gameObject.SetActive (false);
+			count += 1;
+			setCountText ();
 		}
 		//Destroy(other.gameObject);
+	}
+
+	void setCountText()
+	{
+		countText.text = "Count: " + count.ToString ();
+		if (count >= 12)
+			winText.text = "You Win!";
 	}
 }
